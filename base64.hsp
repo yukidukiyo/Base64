@@ -1,0 +1,74 @@
+#define ctype b64en(%1,%2=0) _b64en(%1,%2)
+#module
+#deffunc b64init
+	sdim dic
+	dic="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+	dim dicnum,256
+	repeat strlen(dic)
+		id=peek(dic,cnt)
+		dicnum(id)=cnt
+	loop
+	eof="="
+	return
+#defcfunc _b64en array m_arr,int m_size
+	if m_size>0{
+		size=m_size
+	}else{
+		size=varsize(m_arr)
+	}
+	sdim res,size*4/3
+	id=0
+	repeat
+		ctid=cnt\4
+		if id>=size{
+			break
+		}
+		switch ctid
+		case 0
+			chkid=(peek(m_arr,id))&%111111
+		swbreak
+		case 1
+			chkid=((peek(m_arr,id)>>6)&%11)
+			if id+1<size{
+				chkid|=((peek(m_arr,id+1)<<2)&%111100)
+			}
+			id++
+		swbreak
+		case 2
+			chkid=((peek(m_arr,id)>>4)&%1111)
+			if id+1<size{
+				chkid|=((peek(m_arr,id+1)<<4)&%110000)
+			}
+			id++
+		swbreak
+		case 3
+			chkid=((peek(m_arr,id)>>2)&%111111)
+			id++
+		swbreak
+		swend
+		res+=strf("%c",peek(dic,chkid))
+	loop
+	if strlen(res)\4!=0{
+		repeat 4-strlen(res)\4
+			res+=eof
+		loop
+	}
+	return res
+#deffunc b64de array t_af,array m_bf
+	if vartype(t_af)=2{
+		sdim t_af,strlen(m_bf)*3/4+1
+	}else:if vartype(t_af)=3{
+		ddim t_af,strlen(m_bf)*3/32+1
+	}else:if vartype(t_af)=4{
+		dim t_af,strlen(m_bf)*3/16+1
+	}
+	sdim m_bfs
+	repeat strlen(m_bf)/4:m_bfid=cnt*4
+		poke m_bfs,0,(dicnum(peek(m_bf,m_bfid)))|(dicnum(peek(m_bf,m_bfid+1))<<6)
+		poke m_bfs,1,(dicnum(peek(m_bf,m_bfid+1))>>2)|(dicnum(peek(m_bf,m_bfid+2))<<4)
+		poke m_bfs,2,(dicnum(peek(m_bf,m_bfid+2))>>4)|(dicnum(peek(m_bf,m_bfid+3))<<2)
+		memcpy t_af,m_bfs,3,cnt*3
+	loop
+	return
+#global
+b64init

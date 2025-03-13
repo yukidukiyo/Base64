@@ -1,0 +1,55 @@
+#include "base64.hsp"
+
+dim idt
+idt=1, 2, 9999, 1000000
+ddim ddt
+ddt=3.0, 4.0, 5.0
+sdt="abcdefghijklmn123456789"
+
+mes"元データ"
+h=""
+repeat length(idt)
+	h+=""+idt(cnt)+", "
+loop
+mes""+h
+
+h=""
+repeat length(ddt)
+	h+=""+ddt(cnt)+", "
+loop
+mes""+h
+
+mes""+sdt
+
+mes"\n↓エンコード\n"
+
+iencode=b64en(idt)
+mes""+iencode
+dencode=b64en(ddt)
+mes""+dencode
+sencode=b64en(sdt,strlen(sdt))
+mes""+sencode
+
+mes"\n↓デコード\n"
+
+dim idecode
+b64de idecode,iencode
+h=""
+repeat 4
+	h+=""+idecode(cnt)+", "
+loop
+mes""+h
+ddim ddecode
+b64de ddecode,dencode
+h=""
+repeat 3
+	h+=""+ddecode(cnt)+", "
+loop
+mes""+h
+sdim sdecode
+b64de sdecode,sencode
+h=""
+repeat length(sdecode)
+	h+=""+sdecode(cnt)
+loop
+mes""+h
