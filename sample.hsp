@@ -48,8 +48,4 @@ loop
 mes""+h
 sdim sdecode
 b64de sdecode,sencode
-h=""
-repeat length(sdecode)
-	h+=""+sdecode(cnt)
-loop
-mes""+h
+mes""+sdecode
