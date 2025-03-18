@@ -20,7 +20,6 @@ mes""+h
 mes""+sdt
 
 mes"\n↓エンコード\n"
-
 iencode=b64en(idt)
 mes""+iencode
 dencode=b64en(ddt)
@@ -29,7 +28,6 @@ sencode=b64en(sdt,strlen(sdt))
 mes""+sencode
 
 mes"\n↓デコード\n"
-
 dim idecode
 b64de idecode,iencode
 h=""
