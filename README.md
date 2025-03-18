@@ -3,9 +3,9 @@ HSPでBase64エンコード（デコード）を使えるようにするモジ�
 数値型変数（配列）、実数型変数（配列）、文字列型変数に対応しています。
 <pre>
 例：
-"abcdefghijklmn123456789"
+"abcdefghijklmn1234567890"
 ↓エンコード
-"hJ2YkVmZnhWaqtGbt5WMyMDN1YzN4kD="
+"YWJjZGVmZ2hpamtsbW4xMjM0NTY3ODkw"
 </pre>
 
 ## 使い方

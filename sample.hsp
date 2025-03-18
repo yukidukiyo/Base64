@@ -4,7 +4,7 @@ dim idt
 idt=1, 2, 9999, 1000000
 ddim ddt
 ddt=3.0, 4.0, 5.0
-sdt="abcdefghijklmn123456789"
+sdt="abcdefghijklmn1234567890"
 
 mes"元データ"
 h=""
@@ -35,17 +35,18 @@ mes"\n↓デコード\n"
 dim idecode
 b64de idecode,iencode
 h=""
-repeat 4
+repeat length(idecode)
 	h+=""+idecode(cnt)+", "
 loop
 mes""+h
 ddim ddecode
 b64de ddecode,dencode
 h=""
-repeat 3
+repeat length(ddecode)
 	h+=""+ddecode(cnt)+", "
 loop
 mes""+h
+
 sdim sdecode
 b64de sdecode,sencode
 mes""+sdecode
