@@ -12,13 +12,11 @@ repeat length(idt)
 	h+=""+idt(cnt)+", "
 loop
 mes""+h
-
 h=""
 repeat length(ddt)
 	h+=""+ddt(cnt)+", "
 loop
 mes""+h
-
 mes""+sdt
 
 mes"\n↓エンコード\n"
@@ -46,7 +44,6 @@ repeat length(ddecode)
 	h+=""+ddecode(cnt)+", "
 loop
 mes""+h
-
 sdim sdecode
 b64de sdecode,sencode
 mes""+sdecode
