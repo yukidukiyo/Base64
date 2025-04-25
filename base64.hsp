@@ -1,3 +1,7 @@
+
+#ifndef Base64
+
+#define Base64
 #define ctype b64en(%1,%2=0) _b64en(%1,%2)
 #module
 #deffunc b64init
@@ -69,11 +73,12 @@
 		loop
 	}
 	return res
-#deffunc b64de array t_af,array m_bf
-	size=strlen(m_bf)
+#deffunc b64de array t_af,str m_bf
+	t_bf=m_bf
+	size=strlen(t_bf)
 	if size<=1:return
 	repeat size
-		if peek(m_bf,size-1)=61{	;=
+		if peek(t_bf,size-1)=61{	;=
 			size--
 		}else{
 			break
@@ -85,33 +90,41 @@
 		if vartype(t_af)=2{
 			sdim t_af,ressize
 		}else:if vartype(t_af)=3{
-			ddim t_af,ressize/8
+			if ressize\8>0{
+				ddim t_af,ressize/8+1
+			}else{
+				ddim t_af,ressize/8
+			}
 		}else:if vartype(t_af)=4{
-			dim t_af,ressize/4
+			if ressize\4>0{
+				dim t_af,ressize/4+1
+			}else{
+				dim t_af,ressize/4
+			}
 		}
 	}
 	id=0
 	repeat
 		switch cnt\3
 		case 0
-			setchar=dicnum(peek(m_bf,id))<<2
+			setchar=dicnum(peek(t_bf,id))<<2
 			id++
 			if id<size{
-				setchar|=dicnum(peek(m_bf,id))>>4
+				setchar|=dicnum(peek(t_bf,id))>>4
 			}
 		swbreak
 		case 1
-			setchar=dicnum(peek(m_bf,id))<<4&%11110000
+			setchar=dicnum(peek(t_bf,id))<<4&%11110000
 			id++
 			if id<size{
-				setchar|=dicnum(peek(m_bf,id))>>2
+				setchar|=dicnum(peek(t_bf,id))>>2
 			}
 		swbreak
 		case 2
-			setchar=dicnum(peek(m_bf,id))<<6&%11000000
+			setchar=dicnum(peek(t_bf,id))<<6&%11000000
 			id++
 			if id<size{
-				setchar|=dicnum(peek(m_bf,id))
+				setchar|=dicnum(peek(t_bf,id))
 			}
 		swbreak
 		swend
@@ -121,4 +134,7 @@
 	loop
 	return
 #global
+
 b64init
+
+#endif
